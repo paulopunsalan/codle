@@ -1,0 +1,178 @@
+<html lang="en">
+
+<head>
+    <meta name="robots" content="noindex">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+    <title>Codle</title>
+</head>
+
+<body>
+    <h1 style="font-size: 32px; margin-top: 32px; margin-bottom: 0px;">
+        <div class="letter correct">
+            /c
+        </div>odle
+    </h1>
+
+    <p style="margin: 8px;">Wordle turned techy.</p>
+
+    <div class="wordle-grid" id="grid"></div>
+
+    <form action="/guess" method="POST" id="guess-bar">
+        <input type="text" placeholder=">" name="guess" id="guess-input" minlength="5" maxlength="5" autocomplete="off" />
+        <input type="submit" value="⏎" id="guess-submit" />
+    </form>
+
+    <form action="/restart" method="post" id="retry-bar" style="display: none;">
+        <input type="submit" value="Try again?" id="try-again">
+    </form>
+
+    <p id="word" style="display: none;">The word was: {{ word }}</p>
+
+    <div id="infobg" style="display: none;" onclick="info();"></div>
+    <div class="letter empty infobtn" onclick="info();"><p>i</p></div>
+    <div class="infobox" id="info" style="display: none;">
+        <h3>Codle - a programmer's guessing game</h3>
+        <p>
+            A word is randomly picked from the word pile.<br>
+            Try and get the word in 6 tries or you're out!
+            <br><br>
+            Green letters mean that the letter is in the word<br>
+            and the letter is in the correct position.<br>
+            <div class="letter correct">
+                <p>r</p>
+            </div><div class="letter correct">
+                <p>i</p>
+            </div><div class="letter correct">
+                <p>g</p>
+            </div><div class="letter correct">
+                <p>h</p>
+            </div><div class="letter correct">
+                <p>t</p>
+            </div>
+            <br><br>
+            Yellow letters mean they're misplaced letters.<br>
+            The letter is in the word, but they're in the wrong place.<br>
+            <div class="letter misplaced">
+                <p>w</p>
+            </div><div class="letter misplaced">
+                <p>h</p>
+            </div><div class="letter misplaced">
+                <p>e</p>
+            </div><div class="letter misplaced">
+                <p>r</p>
+            </div><div class="letter misplaced">
+                <p>e</p>
+            </div>
+            <br><br>
+            Gray letters mean they're wrong letters.<br>
+            The letter is not in the word at all.<br>
+            <div class="letter incorrect">
+                <p>w</p>
+            </div><div class="letter incorrect">
+                <p>r</p>
+            </div><div class="letter incorrect">
+                <p>o</p>
+            </div><div class="letter incorrect">
+                <p>n</p>
+            </div><div class="letter incorrect">
+                <p>g</p>
+            </div>
+        </p>
+        <a href="/credits" style="right: 16px; bottom: 16px; position:absolute">credits</a>
+        <p style="margin: 0; right: 16px; top: 16px; position:absolute;" onclick="info();">x</p>
+    </div>
+
+    <script>
+        function generateGrid(grid, words) {
+            var gridObj = document.getElementById("grid");
+
+            for (let y = 0; y < grid.length; y++) {
+                var rowObj = document.createElement('div');
+                gridObj.appendChild(rowObj);
+
+                for (let x = 0; x < grid[y].length; x++) {
+                    var letterObj = document.createElement('div');
+
+                    var letterType = 'empty'
+                    letterObj.title = 'It\'s an empty box.';                    
+
+                    if (grid[y][x] > 0)
+                        letterObj.innerHTML = words[y].split('')[x].toLowerCase();
+                    if (grid[y][x] == 1)
+                    {
+                        letterType = 'incorrect';
+                        letterObj.title = 'Grayed out letters are wrong letters.\nThey\'re not a letter in the word.';
+                    }
+                    else if (grid[y][x] == 2)
+                    {
+                        letterType = 'misplaced';
+                        letterObj.title = 'Yellow letters are misplaced.\nThey\'re in the word but in the wrong position.';
+                    }
+                    else if (grid[y][x] == 3)
+                    {
+                        letterType = 'correct';
+                        letterObj.title = 'Green letters are in the correct position and in the word.';
+                    }
+                    else
+                    {
+                        letterObj.style = 'color: rgb(20, 20, 20);';
+                        letterObj.innerHTML = '?';
+                    }
+
+                    letterObj.className = 'letter ' + letterType;
+                    var textObj = document.createElement('p');
+                    letterObj.appendChild(textObj);
+                    rowObj.appendChild(letterObj);
+                }
+            }
+        }
+
+        var shownInfo = true;
+
+        function info() {
+            var infobox = document.getElementById("info");
+            var infobg = document.getElementById("infobg");
+
+            shownInfo = !shownInfo;
+
+            if (shownInfo) {
+                infobox.style = 'display: none;';
+                infobg.style = 'display: none;';
+            } else {
+                infobox.style = 'display: block;';
+                infobg.style = 'display: block;';
+            }
+        }
+
+        // remove them so that user can freely refresh
+        if (window.location.href.endsWith('/restart'))
+            window.location = window.location.href.replace('/restart', '');
+        if (window.location.href.endsWith('/guess'))
+            window.location = window.location.href.replace('/guess', '');
+
+        // the script is here because
+        // these strings only work here!
+        var grid = JSON.parse('{{ grid|tojson }}');
+        var words = JSON.parse('{{ wordsPlayed|tojson }}');
+        generateGrid(grid, words);
+
+        var word = '{{ word }}';
+
+        if (word.length > 0)
+        {
+            var tryAgain = document.getElementById('retry-bar');
+            var guess = document.getElementById('guess-bar');
+            var word = document.getElementById('word')
+
+            tryAgain.style = 'display: block;';
+            guess.style = 'display: none;';
+            word.style = 'display: block';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+html {
+    background-color: rgb(20, 20, 20);
+    color: white;
+    text-align: center;
+    font-family: 'Consolas', monospace;
+}
+
+#guess-input {
+    font-family: 'Consolas', monospace;
+    font-size: 48px;
+    line-height: 64px;
+
+    width: 274px;
+    height: 64px;
+
+    margin: 3px 3px;
+    padding: 5px;
+    border-radius: 5px;
+
+    background-color: rgb(20, 20, 20);
+    color: white;
+    border: 1px white;
+    border-style: solid;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    vertical-align: top;
+    text-transform: lowercase;
+}
+
+#guess-submit {
+    font-family: 'Consolas', monospace;
+    font-size: 48px;
+    line-height: 64px;
+
+    width: 64px;
+    height: 64px;
+
+    margin: 3px 3px;
+    margin-left: -6px;
+    border-radius: 5px;
+
+    background-color: rgb(20, 20, 20);
+    color: white;
+    border: 1px white;
+    border-style: solid;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    transition: all 0.2s ease-in-out;
+}
+
+#try-again {
+    font-family: 'Consolas', monospace;
+    font-size: 48px;
+    line-height: 64px;
+
+    width: 344px;
+    height: 64px;
+
+    margin: 3px 3px;
+    border-radius: 5px;
+
+    background-color: rgb(20, 20, 20);
+    color: white;
+    border: 1px white;
+    border-style: solid;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    transition: all 0.2s ease-in-out;
+}
+
+#try-again:hover {
+    color: rgb(20, 20, 20);
+    background-color: white;   
+
+    transition: all 0.2s ease-in-out;
+}
+
+#guess-submit:hover {
+    color: rgb(20, 20, 20);
+    background-color: white;   
+
+    transition: all 0.2s ease-in-out;
+}
+
+.letter {
+    text-align: center;
+    font-family: 'Consolas', monospace;
+    font-size: 48px;
+    line-height: 64px;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 5px;
+
+    color: white;
+    width: 64px;
+    height: 64px;
+
+    margin: 3px 3px;
+}
+
+.incorrect {
+    background-color: gray;
+}
+
+.correct {
+    background-color: rgb(55, 179, 44);
+}
+
+.misplaced {
+    background-color: rgb(223, 208, 6);
+}
+
+.empty {
+    background-color: rgb(20, 20, 20);
+    border: 1px white;
+    border-style: solid;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+}
+
+.empty:hover {
+    background-color: white;
+    color: rgb(20, 20, 20);
+    transition: all 0.2s ease-in-out;
+}
+
+.infobtn {
+    bottom: 10px;
+    right: 10px;
+    position: fixed;
+}
+
+.infobox {
+    width: 45%;
+    height: fit-content;
+
+    left: 27.5%;
+    top: 17.5%;
+    position: fixed;
+
+    background-color: rgb(15, 15, 15);
+    text-align: left;
+    margin: -16px -16px;
+    padding: 16px 16px;
+
+    border-radius: 5px;
+}
+
+.infobox p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.infobox h3 {
+    margin: 0px;
+    padding: 0px;
+}
+
+.infobox .letter {
+    margin-left: 0;
+    margin-right: 4px;
+
+    border-radius: 4px;
+    font-size: 36px;
+    line-height: 48px;
+
+    width: 48px;
+    height: 48px;
+}
+
+#infobg {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.61);
+}
